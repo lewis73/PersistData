@@ -33,6 +33,7 @@ class Interaction extends Component {
     paddingAnimation: new Animated.Value(20),
     animation:new Animated.Value(20),
     videoanimation:new Animated.Value(0),
+    videoanimationposition:new Animated.Value(260),
     talking: false,
   }
 
@@ -57,6 +58,10 @@ class Interaction extends Component {
  onPress = () => {
    if(!this.state.talking){
      this.state.talking = true
+     Animated.timing(this.state.videoanimationposition, {
+         toValue: 0,
+         duration: 0
+     }).start()
      Animated.timing(this.state.animation, {
          toValue: -280,
          duration: 300
@@ -68,6 +73,10 @@ class Interaction extends Component {
     }
     if(this.state.talking){
       this.state.talking = false
+      Animated.timing(this.state.videoanimationposition, {
+          toValue: 260,
+          duration: 0
+      }).start()
       Animated.timing(this.state.videoanimation, {
           toValue: 0,
           duration: 300
@@ -129,7 +138,8 @@ return(
         style={{
           opacity: fadeAnim,         // Bind opacity to animated value
         }}>
-        <View style={{backgroundColor:'#f4f6f8', height: height - 121,}}>
+        <View style={{backgroundColor:'#f4f6f8', height: height - 121,borderBottomColor: '#cccccc',
+      borderBottomWidth: 1,}}>
         <View style={{backgroundColor:'#f4f6f8',}}><ImageBackground source={require('./../images/header111.png')} style={{width: width, height: 232}}>
         <View style={{flexDirection:'row', justifyContent:'space-between'}}>
     <View style={{marginTop: 120, marginLeft: 55, zIndex: 1}}><Image style={{width:57,height:27}} source={require('./../images/arrowLeft.png')} /></View>
@@ -154,14 +164,15 @@ return(
 
 <View style={stylez.subfooter}>
 </View>
+
             <View style={stylez.footer}>
             <View style={{ width:4, height:43,
           borderRadius: 4, opacity:1, marginTop:-2,
           zindex:1}}>
               <Image source={require('./../images/inputimage1.png')} style={{
-            borderRadius: 4, opacity:0.7, marginLeft: 260,}} />
+            borderRadius: 4, opacity:0.7, marginLeft: 0,}} />
             </View>
-            <View style={{width: 250, zindex:-1, marginLeft: 260,}}>
+            <View style={{width: 250, zindex:-1,}}>
              <Input
 
                     placeholderTextColor='#b5b5b5'
@@ -174,9 +185,9 @@ return(
                 <Animated.View style={{
                   opacity: this.state.videoanimation,
                   position: 'absolute',
-                  bottom:48,
+                  bottom:50,
                   zIndex:0,
-                  left: 252,         // Bind opacity to animated value
+                  left: this.state.videoanimationposition,         // Bind opacity to animated value
                 }}>
                 <Video
               source={require('./SoundWaveAlphaMatteVidevo5.mp4')}
@@ -228,10 +239,10 @@ const stylez = StyleSheet.create({
       position: 'absolute',
       bottom:48,
       zIndex:0,
-      left: 252,
+      left: 0,
     },
     video:{
-      height:42,
+      height:40,
       width: 260,
       opacity:0.5,
       borderRadius: 5,
@@ -253,7 +264,6 @@ const stylez = StyleSheet.create({
         marginTop: -20,
         paddingLeft: 20,
         flexDirection:'row',
-
         position: 'absolute',
       height: 45,
       left: 0,
@@ -262,17 +272,14 @@ const stylez = StyleSheet.create({
           width:width,
       },
     footer: {
-      borderTopColor: '#cccccc',
-    borderWidth: 1,
-
       position: 'absolute',
-  height: 121,
-  left: 0,
-  flexDirection:'row',
-  top: height - 121,
-  paddingTop: 31,
-        backgroundColor:'#ffffff',
-        width:width,
+      height: 121,
+      left: 260,
+      flexDirection:'row',
+      top: height - 121,
+      paddingTop: 31,
+      backgroundColor:'#ffffff',
+      width:width,
     }
 })
 
